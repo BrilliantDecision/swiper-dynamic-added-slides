@@ -1,0 +1,33 @@
+@use "src/shared/styles/_mixins" as *;
+
+.wrapper {
+  overflow: hidden;
+
+  @include desktop {
+    padding-left: 12px;
+  }
+  @include netbook {
+    padding-left: 64px;
+  }
+  @include tablet {
+    padding-left: 48px;
+  }
+  @include mobile {
+    padding: 0 16px;
+  }
+}
+
+.blockWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  [class*="swiper swiper-initialized"] {
+    overflow: visible;
+    width: 100%;
+  }
+  @include netbookMin {
+    padding: 0;
+  }
+}

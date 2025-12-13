@@ -1,0 +1,121 @@
+@mixin mobile {
+  @media (min-width: 320px) and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin mobileMax {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin mobileMin {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tabletMax {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tabletMin {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin tabletNetbook {
+  @media (min-width: 768px) and (max-width: 1439px) {
+    @content;
+  }
+}
+
+@mixin tabletDesktop {
+  @media (min-width: 768px) and (max-width: 1919px) {
+    @content;
+  }
+}
+
+@mixin netbook {
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    @content;
+  }
+}
+
+@mixin netbookMin {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin netbookMax {
+  @media (max-width: 1439px) {
+    @content;
+  }
+}
+
+@mixin netbookDesktop {
+  @media (min-width: 1024px) and (max-width: 1919px) {
+    @content;
+  }
+}
+
+@mixin desktopMax {
+  @media (max-width: 1919px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1440px) and (max-width: 1919px) {
+    @content;
+  }
+}
+
+@mixin desktopMin {
+  @media (min-width: 1920px) {
+    @content;
+  }
+}
+
+@mixin isHidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+@mixin isVisible {
+  visibility: visible;
+  opacity: 1;
+}
+
+@mixin fadeInAnimation {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin fadeOutAnimation {
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}

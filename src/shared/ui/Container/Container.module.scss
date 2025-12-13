@@ -1,0 +1,48 @@
+@use "../../styles/mixins" as *;
+
+.container {
+  margin: 0 auto;
+  box-sizing: content-box;
+  padding: 0px 16px;
+
+  @include mobileMin {
+    padding: 0px 32px;
+  }
+  @include tabletMin {
+    padding: 0px 48px;
+  }
+}
+
+.container-large {
+  max-width: 1792px;
+
+  @include desktopMin {
+    padding: 0 64px;
+  }
+
+  @include netbook {
+    padding: 0 32px;
+  }
+}
+
+.container-medium {
+  @include netbookMin {
+    max-width: 1500px;
+  }
+
+  max-width: 1344px;
+}
+
+.container-small {
+  max-width: 928px;
+}
+
+.container-extra-small {
+  max-width: 720px;
+}
+
+.withoutPaddingsMobile {
+  @include mobile {
+    padding: 0;
+  }
+}

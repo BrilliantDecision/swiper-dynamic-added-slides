@@ -1,0 +1,88 @@
+@use '@g2b/shared/styles/_variable' as *;
+@use '@g2b/shared/styles/_mixins' as *;
+
+.slide {
+  display: flex;
+  height: auto;
+  overflow: hidden;
+
+  @include mobile {
+    max-width: 84vw;
+  }
+}
+
+.slideImage {
+  opacity: 0;
+  transition: opacity 0.5s;
+  user-select: none;
+}
+
+.imageWrapper {
+  height: 480px;
+  width: 100%;
+  position: relative;
+  align-self: center;
+  overflow: hidden;
+  border-radius: $size-16;
+
+  @include tablet {
+    height: 360px;
+  }
+
+  @include mobile {
+    height: 160px;
+  }
+}
+
+.captionWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: $size-16;
+  line-height: $size-24;
+  padding: $size-8;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: $natural-8;
+  background: $transparent;
+
+  @include mobile {
+    font-size: $size-14;
+    line-height: $size-22;
+  }
+}
+
+.captionText {
+  width: 80%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.slideImageAppear {
+  opacity: 1;
+}
+
+.skeletonImgWrapper {
+  display: block;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity 0.5s;
+}
+
+.skeletonImgWrapperAppear {
+  opacity: 0.2;
+}
+
+.skeletonImg {
+  display: block;
+}
