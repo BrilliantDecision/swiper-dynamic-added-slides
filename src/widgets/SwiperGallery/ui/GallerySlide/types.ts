@@ -1,8 +1,8 @@
-import type { IGalleryBlockItem } from '@g2b/shared/api/models'
-import { type SwiperSlideProps } from 'swiper/react'
+import { type SwiperSlideProps } from "swiper/react";
+import { SwiperImage } from "../../api/types";
 
-export interface GallerySlideProps extends IGalleryBlockItem {
-  id?: string
-  slideProps?: SwiperSlideProps
-  isLoading?: boolean
+export interface GallerySlideProps extends SwiperImage {
+  id?: string;
+  slideProps?: SwiperSlideProps;
+  isLoading?: boolean;
 }

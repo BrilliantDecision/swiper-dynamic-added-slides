@@ -7,10 +7,17 @@ const getMockImages = async (delay: number) => {
   return SWIPER_IMAGES;
 };
 
-const getMockImage = async (delay: number) => {
+const getMoreMockImages = async (delay: number, count: number) => {
   await setDelay(delay);
-  const randomImgIndex = getRandomInteger(1, SWIPER_IMAGES.swiperImages.length);
-  return SWIPER_IMAGES.swiperImages[randomImgIndex];
+  const mockImages = Array(count)
+    .fill(0)
+    .map(
+      () =>
+        SWIPER_IMAGES.swiperImages[
+          getRandomInteger(0, SWIPER_IMAGES.swiperImages.length - 1)
+        ]
+    );
+  return { mockImages };
 };
 
-export { getMockImages, getMockImage };
+export { getMockImages, getMoreMockImages };
