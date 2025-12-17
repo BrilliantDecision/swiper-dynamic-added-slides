@@ -10,6 +10,12 @@ import { resetTouchEvent } from "../tools/resetTouchEvent";
 import { adapterImagesWithId } from "../tools/images";
 import { GallerySlide } from "./GallerySlide";
 
+/**
+ * Два способа подгрузки слайдов
+ * во время листания сладера
+ * в момент событие transitionEnd, т.е. в момент остановки листания слайдера
+ */
+
 const SwiperGallery = () => {
   const [images, setImages] = useState(
     adapterImagesWithId(SWIPER_IMAGES.swiperImages)
@@ -20,14 +26,17 @@ const SwiperGallery = () => {
     setIsLoading(true);
     s.allowTouchMove = false;
 
+    const prevTranslate = s.translate;
+
     const startLoadTime = performance.now();
     const { mockImages } = await getMoreMockImages(1000, SLIDES_COUNT);
     const finishLoadTime = performance.now() - startLoadTime;
 
-    s.once("slidesUpdated", (s) => {
-      s.slideTo(s.activeIndex + mockImages.length, 0, false);
-      s.allowTouchMove = true;
+    s.setTranslate(prevTranslate);
 
+    s.once("slidesUpdated", (s) => {
+      s.slideTo(mockImages.length, 0, false);
+      s.allowTouchMove = true;
       resetTouchEvent(s);
     });
 
@@ -38,18 +47,21 @@ const SwiperGallery = () => {
         ...adapterImagesWithId(mockImages),
         ...prevImages,
       ]);
-      setIsLoading(() => false);
+      setIsLoading(false);
     }, delayTime);
   }, []);
 
   const addSlidesAsyncRight = useCallback(async (s: Swiper) => {
     setIsLoading(true);
+    s.allowTouchMove = false;
+
     const startLoadTime = performance.now();
     const { mockImages } = await getMoreMockImages(1000, SLIDES_COUNT);
     const finishLoadTime = performance.now() - startLoadTime;
 
     s.once("slidesUpdated", (s) => {
-      s.slideTo(s.activeIndex + 1, 0, false);
+      s.slideTo(s.activeIndex + 1, TRANSITION_SPEED, false);
+      s.allowTouchMove = true;
       resetTouchEvent(s);
     });
 
@@ -60,7 +72,7 @@ const SwiperGallery = () => {
         ...prevImages,
         ...adapterImagesWithId(mockImages),
       ]);
-      setIsLoading(() => false);
+      setIsLoading(false);
     }, delayTime);
   }, []);
 

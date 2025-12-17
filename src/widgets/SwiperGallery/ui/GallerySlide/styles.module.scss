@@ -4,7 +4,6 @@
   display: flex;
   height: auto;
   overflow: hidden;
-  width: fit-content;
 
   @include mobile {
     max-width: 84vw;
@@ -15,7 +14,6 @@
   display: block;
   height: 100%;
   position: relative;
-  object-fit: contain;
   opacity: 0;
   transition: opacity 0.5s;
   user-select: none;
@@ -23,6 +21,7 @@
 
 .imageWrapper {
   height: 480px;
+  width: 100%;
   position: relative;
   align-self: center;
   overflow: hidden;

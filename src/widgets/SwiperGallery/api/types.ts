@@ -3,6 +3,7 @@ interface SwiperImage {
   desc?: string;
   link?: string;
   image?: string;
+  aspectRatio: string;
 }
 
 interface SwiperResponse {

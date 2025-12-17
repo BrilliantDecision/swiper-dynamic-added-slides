@@ -1,0 +1,1 @@
+export { computeSlideSizes } from "./computeSlideWidth";
