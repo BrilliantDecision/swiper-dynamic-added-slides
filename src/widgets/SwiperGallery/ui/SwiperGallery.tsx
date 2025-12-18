@@ -9,12 +9,15 @@ import { SLIDES_COUNT, TRANSITION_SPEED } from "../model/config";
 import { resetTouchEvent } from "../tools/resetTouchEvent";
 import { adapterImagesWithId } from "../tools/images";
 import { GallerySlide } from "./GallerySlide";
+import { SwiperImage } from "../api/types";
+import { Autoplay } from "swiper/modules";
 
-/**
- * Два способа подгрузки слайдов
- * во время листания сладера
- * в момент событие transitionEnd, т.е. в момент остановки листания слайдера
- */
+type AddSlydesAsyncProps = {
+  s: Swiper;
+  onSlidesUpdated: (e: Swiper, mockImages: SwiperImage[]) => void;
+  onTransitionTimeout: (mockImages: SwiperImage[]) => void;
+  onBeforeDisable?: () => void;
+};
 
 const SwiperGallery = () => {
   const [images, setImages] = useState(
@@ -22,58 +25,68 @@ const SwiperGallery = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  const addSlidesAsyncLeft = useCallback(async (s: Swiper) => {
+  const addSlidesAsync = async ({
+    s,
+    onBeforeDisable,
+    onSlidesUpdated,
+    onTransitionTimeout,
+  }: AddSlydesAsyncProps) => {
     setIsLoading(true);
+    onBeforeDisable?.();
+
     s.allowTouchMove = false;
 
-    const prevTranslate = s.translate;
-
     const startLoadTime = performance.now();
-    const { mockImages } = await getMoreMockImages(1000, SLIDES_COUNT);
+    const { mockImages } = await getMoreMockImages(10, SLIDES_COUNT);
     const finishLoadTime = performance.now() - startLoadTime;
+    const delayTime =
+      finishLoadTime < TRANSITION_SPEED ? TRANSITION_SPEED - finishLoadTime : 0;
 
-    s.setTranslate(prevTranslate);
-
-    s.once("slidesUpdated", (s) => {
-      s.slideTo(mockImages.length, 0, false);
+    s.once("slidesUpdated", (e) => {
+      onSlidesUpdated(e, mockImages);
       s.allowTouchMove = true;
       resetTouchEvent(s);
     });
 
-    const delayTime = finishLoadTime < TRANSITION_SPEED ? finishLoadTime : 0;
-
     setTimeout(() => {
-      setImages((prevImages) => [
-        ...adapterImagesWithId(mockImages),
-        ...prevImages,
-      ]);
+      onTransitionTimeout(mockImages);
       setIsLoading(false);
     }, delayTime);
+  };
+
+  const addSlidesAsyncLeft = useCallback(async (s: Swiper) => {
+    addSlidesAsync({
+      s,
+      onBeforeDisable: () => {
+        setTimeout(() => {
+          s.slideTo(0, TRANSITION_SPEED, false);
+        });
+      },
+      onSlidesUpdated: (_, mockImages) => {
+        s.slideTo(mockImages.length, 0, false);
+      },
+      onTransitionTimeout: (mockImages) => {
+        setImages((prevImages) => [
+          ...adapterImagesWithId(mockImages),
+          ...prevImages,
+        ]);
+      },
+    });
   }, []);
 
   const addSlidesAsyncRight = useCallback(async (s: Swiper) => {
-    setIsLoading(true);
-    s.allowTouchMove = false;
-
-    const startLoadTime = performance.now();
-    const { mockImages } = await getMoreMockImages(1000, SLIDES_COUNT);
-    const finishLoadTime = performance.now() - startLoadTime;
-
-    s.once("slidesUpdated", (s) => {
-      s.slideTo(s.activeIndex + 1, TRANSITION_SPEED, false);
-      s.allowTouchMove = true;
-      resetTouchEvent(s);
+    addSlidesAsync({
+      s,
+      onSlidesUpdated: () => {
+        s.slideTo(s.activeIndex + 1, TRANSITION_SPEED, false);
+      },
+      onTransitionTimeout: (mockImages) => {
+        setImages((prevImages) => [
+          ...prevImages,
+          ...adapterImagesWithId(mockImages),
+        ]);
+      },
     });
-
-    const delayTime = finishLoadTime < TRANSITION_SPEED ? finishLoadTime : 0;
-
-    setTimeout(() => {
-      setImages((prevImages) => [
-        ...prevImages,
-        ...adapterImagesWithId(mockImages),
-      ]);
-      setIsLoading(false);
-    }, delayTime);
   }, []);
 
   const onReachBeginning = (s: Swiper) => {
@@ -89,10 +102,10 @@ const SwiperGallery = () => {
       <Container className={styles.blockWrapper}>
         <ReactSwiper
           initialSlide={2}
-          lazyPreloadPrevNext={5}
           slidesPerView="auto"
           onReachBeginning={onReachBeginning}
           onReachEnd={onReachEnd}
+          modules={[Autoplay]}
           breakpoints={{
             0: {
               spaceBetween: 8,

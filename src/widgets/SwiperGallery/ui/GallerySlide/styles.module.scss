@@ -4,6 +4,7 @@
   display: flex;
   height: auto;
   overflow: hidden;
+  cursor: pointer;
 
   @include mobile {
     max-width: 84vw;
