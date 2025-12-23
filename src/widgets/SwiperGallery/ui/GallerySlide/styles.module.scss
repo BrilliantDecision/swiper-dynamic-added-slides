@@ -5,6 +5,7 @@
   height: auto;
   overflow: hidden;
   cursor: pointer;
+  width: fit-content;
 
   @include mobile {
     max-width: 84vw;
