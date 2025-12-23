@@ -26,10 +26,10 @@ export const GallerySlide = ({
   const mediaTablet = useMediaQuery("tabletMax");
 
   const slideHeight = useMemo(() => {
-    if (mediaTablet) {
-      return SLIDE_HEIGHT_TABLET;
-    } else if (mediaMobile) {
+    if (mediaMobile) {
       return SLIDE_HEIGHT_MOBILE;
+    } else if (mediaTablet) {
+      return SLIDE_HEIGHT_TABLET;
     }
 
     return SLIDE_HEIGHT_DESKTOP;
