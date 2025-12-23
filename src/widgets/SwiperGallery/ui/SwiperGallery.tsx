@@ -107,6 +107,7 @@ const SwiperGallery = () => {
       <Container className={styles.blockWrapper}>
         <ReactSwiper
           initialSlide={2}
+          lazyPreloadPrevNext={5}
           slidesPerView="auto"
           onReachBeginning={onReachBeginning}
           onReachEnd={onReachEnd}
