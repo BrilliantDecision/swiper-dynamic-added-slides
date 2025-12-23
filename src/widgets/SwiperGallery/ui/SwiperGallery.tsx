@@ -58,7 +58,7 @@ const SwiperGallery = () => {
     addSlidesAsync({
       s,
       onBeforeDisable: () => {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           s.slideTo(0, TRANSITION_SPEED, false);
         });
       },
@@ -77,6 +77,11 @@ const SwiperGallery = () => {
   const addSlidesAsyncRight = useCallback(async (s: Swiper) => {
     addSlidesAsync({
       s,
+      onBeforeDisable: () => {
+        requestAnimationFrame(() => {
+          s.slideToClosest();
+        });
+      },
       onSlidesUpdated: () => {
         s.slideTo(s.activeIndex + 1, TRANSITION_SPEED, false);
       },
