@@ -13,7 +13,7 @@ const SWIPER_IMAGES: SwiperResponse = {
       title: "Beach Sunset",
       desc: "Golden hour at a tropical beach with palm trees",
       link: "https://example.com/beach",
-      image: "images/image_2.jpg",
+      image: "images/image_2.jpeg",
       aspectRatio: "3/2",
     },
     {
